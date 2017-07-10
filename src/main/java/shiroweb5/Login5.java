@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * Created by wing on 2017/7/7.
  */
-public class Login extends HttpServlet{
+public class Login5 extends HttpServlet{
 
     @Override
     protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -28,9 +28,11 @@ public class Login extends HttpServlet{
             subject.login(token);
             System.out.println("用户登录成功");
         } catch (UnknownAccountException e) {
-            error = "用户不存在";
+//            error = "用户不存在";
+            error = "用户名或密码不对";
         } catch (IncorrectCredentialsException e) {
-            error = "密码错误";
+//            error = "密码错误";
+            error = "用户名或密码不对";
         }
         if (error != null) {
             request.setAttribute("login.msg",error);

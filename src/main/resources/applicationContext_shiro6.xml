@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--web.xml配置DelegatingFilterProxy过滤器后，会自动找跟filter-name一样的这个过滤器来处理-->
+    <bean name="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login"/>
+        <property name="successUrl" value="/index.jsp"/>
+        <property name="unauthorizedUrl" value="/login"/>
+        <property name="filterChainDefinitions">
+            <value>
+               <!--
+                anon 不需要认证和登陆 可以访问
+                authc 必须认证后才能访问
+                perms 必须具有某个权限才能访问
+                roles  必须具有某个角色才能访问
+                port 请求必须符合端口才能访问
+                rest 限制HTTP请求方式 post、get
+                ssl 必须用https才能访问
+                user 必须存在用户才能访问
+                存在用户（cookie）和认证（session）不一样
+                logout 必须session里面没有这个用户才能访问-->
+                /login.jsp*=anon
+                /include.jsp=anon
+                /index.jsp=anon
+                /home.jsp=anon
+                /success.html=authc
+                /authority.jsp=authc
+            </value>
+        </property>
+    </bean>
+    <bean class="realm.SpringWebRealm6" name="springWebRealm6"/>
+    <!--安全管理器-->
+    <bean name="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="springWebRealm6"/>
+    </bean>
+</beans>
